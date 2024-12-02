@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Billing Test Suite">
+<listeners>
+        <listener class-name="org.uncommons.reportng.HTMLReporter"/>
+    </listeners>
+    
+  <test thread-count="5" name="Bill Test">
+    <classes>
+      <class name="base.BaseTest"/>
+       <class name="testcases.SmokeTest"/>   
+      <!-- <class name="testcases.Practice_1"/>  -->
+      <!-- <class name="testcases.Mytestcases"/> -->
+       <!-- <class name="testcases.Billing_New"/>  -->
+       <!-- <class name="testcases.Billing_Range"/>  -->
+        <!-- <class name="testcases.Pharmacy"/> -->
+      <!-- <class name="testcases.Practice"/>   --> 
+      <!-- <class name="testcases.Login"/> -->      
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->

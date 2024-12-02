@@ -1,0 +1,9 @@
+base\BaseTest.class
+testcases\Login.class
+testcases\Pharmacy.class
+utilities\ReadPropertyFile.class
+utilities\ReadXLSdata.class
+testcases\Mytestcases.class
+testcases\Billing_Range.class
+testcases\Practice.class
+testcases\Billing_New.class

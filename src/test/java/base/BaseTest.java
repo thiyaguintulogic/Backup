@@ -45,6 +45,8 @@ public class BaseTest {
 			//WebDriverManager.chromedriver().browserVersion("124.0.6367.208").setup();
 	        ChromeOptions options = new ChromeOptions();
 	        options.addArguments("--disable-cache"); 
+	        options.addArguments("--disable-logging");
+	        options.addArguments("--disable-extensions");
 	        //options.addArguments("--incognito");
 	        driver = new ChromeDriver(options);
 			 driver.manage().window().maximize();
@@ -71,7 +73,7 @@ public class BaseTest {
 	public void tearDown() {
 
 		
-	      //  driver.quit();
+	       // driver.quit();
 	    
 	}
 }

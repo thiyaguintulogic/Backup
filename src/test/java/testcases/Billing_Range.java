@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.time.Duration;
 import java.util.NoSuchElementException;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.ListDocument.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -27,10 +28,10 @@ public class Billing_Range extends BaseTest {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
 		WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin-email")));
-		username.sendKeys("FAC-155-support");
+		username.sendKeys("intuadmin");
 
 		WebElement password = driver.findElement(By.id("signin-password"));
-		password.sendKeys("Admin@123");
+		password.sendKeys("scott");
 
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
 		Thread.sleep(8000);
@@ -42,28 +43,33 @@ public class Billing_Range extends BaseTest {
 
 	}
 	
-	
+	@Test(priority = 1)
 	public static void OPBill_OneMonthRange() throws InterruptedException, AWTException {
 
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
-		driver.findElement(By.xpath("//a[text()=' OP']")).click();
-		Thread.sleep(2000);
-
-		driver.findElement(By.xpath("//div[@id='op-bill-list1']")).click();
-
+		WebElement opLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()=' OP']")));
+		opLink.click();
+		
+		WebElement billList1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='op-bill-list1']")));
+		billList1.click();
+		
 		By labMonthElementLocator = By.xpath("(//li[@data-range-key='1 Month'])[6]");
 		WebElement labMonthElement = wait.until(ExpectedConditions.visibilityOfElementLocated(labMonthElementLocator));
 		labMonthElement.click();
 		Thread.sleep(4000);
 
-		driver.findElement(By.xpath("//button[@title='Filter']")).click();
+		WebElement filterButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@title='Filter']")));
+		filterButton.click();
 
 		WebElement FilterALL = wait
 				.until(ExpectedConditions.elementToBeClickable(By.xpath("(//input[@type='checkbox'])[1]")));
 		FilterALL.click();
-		Thread.sleep(3000);
-		driver.findElement(By.xpath("(//input[@type='checkbox'])[3]")).click();
+		Thread.sleep(2000);
+		
+		WebElement thirdCheckbox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//input[@type='checkbox'])[3]")));
+		thirdCheckbox.click();
+		
 
 		WebElement columnValueElement = wait
 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[1]")));
@@ -88,8 +94,9 @@ public class Billing_Range extends BaseTest {
 		WebElement selectDropdown1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//mat-select[@placeholder='Select'])[1]")));
 		selectDropdown1.click();
 		
-		WebElement consultationFeesOption = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'Dr. Aaditya Consultation Fees')]")));
-		consultationFeesOption.click();
+		WebElement neerajConsultationFees = wait.until(ExpectedConditions
+				.presenceOfElementLocated(By.xpath("//span[contains(text(),'Dr.Neeraj Fees ')]")));
+		neerajConsultationFees.click();
 		
 		WebElement addButton2 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//button[@title='Add'])[1]")));
 		addButton2.click();
@@ -130,22 +137,25 @@ public class Billing_Range extends BaseTest {
 		WebElement OPLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()=' OP']")));
 		OPLink.click();
 
-		driver.findElement(By.xpath("//div[@id='op-bill-list1']")).click();
+		WebElement billList2 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='op-bill-list1']")));
+		billList2.click();
 
 		By labMonthElementLocatorStatusVerify = By.xpath("(//li[@data-range-key='1 Month'])[8]");
 		WebElement labMonthElementStatusVerify = wait
 				.until(ExpectedConditions.visibilityOfElementLocated(labMonthElementLocatorStatusVerify));
 		labMonthElementStatusVerify.click();
 		Thread.sleep(4000);
-
-		driver.findElement(By.xpath("//button[@title='Filter']")).click();
+		
+		WebElement filterButton1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@title='Filter']")));
+		filterButton1.click();
 
 		WebElement FilterALLStatusVerify = wait
 				.until(ExpectedConditions.elementToBeClickable(By.xpath("(//input[@type='checkbox'])[1]")));
 		FilterALLStatusVerify.click();
 		Thread.sleep(3000);
 
-		driver.findElement(By.xpath("(//input[@type='checkbox'])[2]")).click();
+		WebElement secondCheckbox = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//input[@type='checkbox'])[2]")));
+		secondCheckbox.click();
 		Thread.sleep(3000);
 		
 		WebElement searchInputCard1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@title='Search']")));
@@ -158,25 +168,30 @@ public class Billing_Range extends BaseTest {
          Thread.sleep(2000);
 		
 		// Capture Bill Status After Paid
-		WebElement PatientCode = wait
-				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[1]")));
-        String AfterPaidPatientCode = PatientCode.getText();
-        
-        WebElement Billnumber = wait
-				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[5]")));
-		String AfterPaidBillnumber = Billnumber.getText();
-		
-		WebElement AfterStatus = wait
-				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody[1]/tr[1]/td[8]/span[1]")));
-		String columnValueStatusAfter = AfterStatus.getText();
-		
-		System.out.println( "After paying the OP Bill - Patient Code : " + AfterPaidPatientCode);
-		System.out.println( "After paying the OP Bill - Bill Number  : " + AfterPaidBillnumber);
-		System.out.println(columnValue + " : After paying the OP bill, status : " + columnValueStatusAfter);
+         WebElement PatientCode = wait
+ 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[1]")));
+         String AfterPaidPatientCode = PatientCode.getText();
+         
+         WebElement Billnumber = wait
+ 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[5]")));
+ 		String AfterPaidBillnumber = Billnumber.getText();
+ 		
+ 		WebElement BillDate = wait
+ 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[6]")));
+ 		String AfterPaidBillDate = BillDate.getText();
+ 		
+ 		WebElement AfterStatus = wait
+ 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[8]")));
+ 		String AfterPaidStatus = AfterStatus.getText();
+ 		
+ 		System.out.println( "After paying the OP Bill - Patient Code : " + AfterPaidPatientCode);
+ 		System.out.println( "After paying the OP Bill - Bill Number  : " + AfterPaidBillnumber);
+ 		System.out.println( "After paying the OP Bill - Bill Number  : " + AfterPaidBillDate);
+ 		System.out.println( "After paying the OP Bill - Bill Status  : " + AfterPaidStatus);
 
 	}
 
-	@Test(priority = 1)
+	
 	public static void LabBill_OneMonthRange() throws InterruptedException, AWTException {
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -224,7 +239,7 @@ public class Billing_Range extends BaseTest {
 		driver.findElement(By.xpath("(//mat-select[@placeholder='Select'])[1]")).click();
 		Thread.sleep(2000);
 
-		driver.findElement(By.xpath("//span[contains(text(),'LIVER TEST PACK ')]")).click();
+		driver.findElement(By.xpath("//span[contains(text(),'Allergy Skin Test ')]")).click();
 		
 		try {
             // Continuously refresh the rows list after each deletion
@@ -334,21 +349,26 @@ public class Billing_Range extends BaseTest {
              Thread.sleep(2000);
     		
     		// Capture Bill Status After Paid
-    		WebElement PatientCode = wait
-    				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[1]")));
-            String AfterPaidPatientCode = PatientCode.getText();
-            
-            WebElement Billnumber = wait
-    				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[5]")));
-    		String AfterPaidBillnumber = Billnumber.getText();
-    		
-    		WebElement AfterStatus = wait
-    				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody[1]/tr[1]/td[8]/span[1]")));
-    		String columnValueStatusAfter = AfterStatus.getText();
-    		
-    		System.out.println( "After paying the Lab Bill - Patient Code : " + AfterPaidPatientCode);
-    		System.out.println( "After paying the Lab Bill - Bill Number  : " + AfterPaidBillnumber);
-    		System.out.println(columnValue + " : After paying the Lab bill, status : " + columnValueStatusAfter);
+             WebElement PatientCode = wait
+     				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[1]")));
+             String AfterPaidPatientCode = PatientCode.getText();
+             
+             WebElement Billnumber = wait
+     				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[5]")));
+     		String AfterPaidBillnumber = Billnumber.getText();
+     		
+     		WebElement BillDate = wait
+     				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[6]")));
+     		String AfterPaidBillDate = BillDate.getText();
+     		
+     		WebElement AfterStatus = wait
+     				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[8]")));
+     		String AfterPaidStatus = AfterStatus.getText();
+     		
+     		System.out.println( "After paying the Lab Bill - Patient Code : " + AfterPaidPatientCode);
+     		System.out.println( "After paying the Lab Bill - Bill Number  : " + AfterPaidBillnumber);
+     		System.out.println( "After paying the Lab Bill - Bill Date  : " + AfterPaidBillDate);
+     		System.out.println( "After paying the Lab Bill - Bill Status  : " + AfterPaidStatus);
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -408,7 +428,7 @@ public class Billing_Range extends BaseTest {
 		driver.findElement(By.xpath("(//mat-select[@placeholder='Select'])[1]")).click();
 		Thread.sleep(2000);
 
-		driver.findElement(By.xpath("//span[contains(text(),'X-ray ')]")).click();
+		driver.findElement(By.xpath("//span[contains(text(),'Mammography ')]")).click();
 
 		Thread.sleep(3000);
 		WebElement payBillButton = driver.findElement(By.xpath("//button[contains(text(),'Pay Bill')]"));
@@ -470,26 +490,32 @@ public class Billing_Range extends BaseTest {
          Thread.sleep(2000);
 
 		// Capture Bill Status After Paid
-		WebElement PatientCode = wait
-				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[1]")));
-        String AfterPaidPatientCode = PatientCode.getText();
-        
-        WebElement Billnumber = wait
-				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[5]")));
-		String AfterPaidBillnumber = Billnumber.getText();
-		
-		WebElement AfterStatus = wait
-				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody[1]/tr[1]/td[8]/span[1]")));
-		String columnValueStatusAfter = AfterStatus.getText();
-		
-		System.out.println( "After paying the Lab Bill - Patient Code : " + AfterPaidPatientCode);
-		System.out.println( "After paying the Lab Bill - Bill Number  : " + AfterPaidBillnumber);
-		System.out.println(columnValue + " : After paying the Lab bill, status : " + columnValueStatusAfter);
+         WebElement PatientCode = wait
+ 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[1]")));
+         String AfterPaidPatientCode = PatientCode.getText();
+         
+         WebElement Billnumber = wait
+ 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[5]")));
+ 		String AfterPaidBillnumber = Billnumber.getText();
+ 		
+ 		WebElement BillDate = wait
+ 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[6]")));
+ 		String AfterPaidBillDate = BillDate.getText();
+ 		
+ 		WebElement AfterStatus = wait
+ 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[8]")));
+ 		String AfterPaidStatus = AfterStatus.getText();
+ 		
+ 		System.out.println( "After paying the Scan Bill - Patient Code : " + AfterPaidPatientCode);
+ 		System.out.println( "After paying the Scan Bill - Bill Number  : " + AfterPaidBillnumber);
+ 		System.out.println( "After paying the Scan Bill - Bill Date  : " + AfterPaidBillDate);
+ 		System.out.println( "After paying the Scan Bill - Bill Status  : " + AfterPaidStatus);
 		
 		
 		
 	}
 
+	
 	
 	public static void OPBill_OneMonthRange_PartiallyPaid() throws InterruptedException, AWTException {
 
@@ -561,39 +587,61 @@ public class Billing_Range extends BaseTest {
 		executor.executeScript("arguments[0].click();", menuIcon);
 		Thread.sleep(5000);
 
-		driver.findElement(By.xpath("//a[text()=' OP']")).click();
-		Thread.sleep(2000);
+		WebElement OPLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()=' OP']")));
+		OPLink.click();
 
-		driver.findElement(By.xpath("//div[@id='op-bill-list1']")).click();
+		WebElement billList2 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@id='op-bill-list1']")));
+		billList2.click();
 
 		By labMonthElementLocatorStatusVerify = By.xpath("(//li[@data-range-key='1 Month'])[8]");
 		WebElement labMonthElementStatusVerify = wait
 				.until(ExpectedConditions.visibilityOfElementLocated(labMonthElementLocatorStatusVerify));
 		labMonthElementStatusVerify.click();
 		Thread.sleep(4000);
-
-		driver.findElement(By.xpath("//button[@title='Filter']")).click();
+		
+		WebElement filterButton1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@title='Filter']")));
+		filterButton1.click();
 
 		WebElement FilterALLStatusVerify = wait
 				.until(ExpectedConditions.elementToBeClickable(By.xpath("(//input[@type='checkbox'])[1]")));
 		FilterALLStatusVerify.click();
 		Thread.sleep(3000);
 
-		driver.findElement(By.xpath("(//input[@type='checkbox'])[2]")).click();
+		WebElement secondCheckbox = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//input[@type='checkbox'])[2]")));
+		secondCheckbox.click();
 		Thread.sleep(3000);
-
-		driver.findElement(By.xpath("(//input[@type='checkbox'])[3]")).click();
-
-		WebElement searchInputCard1 = driver.findElement(By.xpath("//button[@title='Search']"));
+		
+		WebElement searchInputCard1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@title='Search']")));
 		searchInputCard1.click();
-		searchInputCard1.sendKeys(columnValue);
-
+		
+		 WebElement searchInputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//thead/tr[2]/th[1]/input[1]")));
+         searchInputField.click();
+         searchInputField.sendKeys(columnValue);
+         searchInputField.sendKeys(Keys.ENTER);
+         Thread.sleep(2000);
+		
 		// Capture Bill Status After Paid
-		WebElement AfterStatus = wait
-				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody[1]/tr[1]/td[8]/span[1]")));
-		String columnValueStatusAfter = AfterStatus.getText();
-		System.out.println(columnValue + " : After paying the OP bill, status : " + columnValueStatusAfter);
-
-
+         WebElement PatientCode = wait
+ 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[1]")));
+         String AfterPaidPatientCode = PatientCode.getText();
+         
+         WebElement Billnumber = wait
+ 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[5]")));
+ 		String AfterPaidBillnumber = Billnumber.getText();
+ 		
+ 		WebElement BillDate = wait
+ 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[6]")));
+ 		String AfterPaidBillDate = BillDate.getText();
+ 		
+ 		WebElement AfterStatus = wait
+ 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[8]")));
+ 		String AfterPaidStatus = AfterStatus.getText();
+ 		
+ 		System.out.println( "After paying the OP Bill - Patient Code : " + AfterPaidPatientCode);
+ 		System.out.println( "After paying the OP Bill - Bill Number  : " + AfterPaidBillnumber);
+ 		System.out.println( "After paying the OP Bill - Bill Number  : " + AfterPaidBillDate);
+ 		System.out.println( "After paying the OP Bill - Bill Status  : " + AfterPaidStatus);
 	}
+	
+	
 }

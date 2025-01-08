@@ -46,26 +46,53 @@ public class Billing_New extends BaseTest {
 	public static void OPBill_Appointment() throws InterruptedException, AWTException {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
-		// Create Patient Registration
-		driver.findElement(By.xpath("//a[contains(text(),' Patient Registration')]")).click();
+		
+		// Click on 'Patient Registration'
+				WebElement patientRegistration = wait.until(
+						ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),' Patient Registration')]")));
+				patientRegistration.click();
 
-		driver.findElement(By.xpath("//input[@title='First Name']")).sendKeys("Harish");
-		driver.findElement(By.xpath("//input[@title='Age']")).sendKeys("39");
-		driver.findElement(By.xpath("//input[@title='Phone Number']")).sendKeys("4565896987");
-		driver.findElement(By.xpath("//span[contains(text(),'Male')]")).click();
+				// Fill out the registration form for the first patient
+				WebElement firstName = wait
+						.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='First Name']")));
+				firstName.sendKeys("Eleanor");
+				
+				WebElement Lastname = wait
+						.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//input[@type='text'])[2]")));
+				Lastname.sendKeys("Avery");
 
-		Select State = new Select(driver.findElement(By.xpath("//select[@id='cityChange']")));
-		State.selectByVisibleText(" Tamil Nadu ");
+				WebElement age = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='Age']")));
+				age.sendKeys("19");
 
-		driver.findElement(By.xpath("//span[text()='Select']")).click();
-		driver.findElement(By.xpath("//span[contains(text(),'Salem')]")).click();
+				WebElement phoneNumber = wait
+						.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='Phone Number']")));
+				phoneNumber.sendKeys("4212321245");
 
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("window.scrollBy(0, 500);");
+				WebElement genderFemale = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Female')]")));
+				genderFemale.click();
 
-		driver.findElement(By.xpath("//button[contains(text(),'Submit')]")).click();
+				WebElement stateDropdown = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='cityChange']")));
+				Select state = new Select(stateDropdown);
+				state.selectByVisibleText(" Tamil Nadu ");
 
-		Thread.sleep(5000);
+				WebElement cityField = wait.until(ExpectedConditions.elementToBeClickable(
+						By.xpath("//*[@id=\"patientForm\"]/div[1]/div[15]/div/mat-form-field/div/div[1]")));
+				cityField.click();
+
+				WebElement cityChennai = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Salem')]")));
+				cityChennai.click();
+
+				JavascriptExecutor js = (JavascriptExecutor) driver;
+				js.executeScript("window.scrollBy(0, 500);");
+
+				WebElement submitButton = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Submit')]")));
+				submitButton.click();
+
+				Thread.sleep(5000);
 
 		// Create Appointment
 		WebElement menuIcon = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#mega-menu-nav-btn")));
@@ -94,7 +121,7 @@ public class Billing_New extends BaseTest {
 		selectDoctorDropdown.click();
 
 		Select selectDoctor = new Select(selectDoctorDropdown);
-		selectDoctor.selectByVisibleText(" Dr.Jeeva S ");
+		selectDoctor.selectByVisibleText(" Dr.Damien S ");
 
 		driver.findElement(By.xpath("//button[contains(text(),' Save & Close ')]")).click();
 		Thread.sleep(3000);
@@ -115,7 +142,7 @@ public class Billing_New extends BaseTest {
 
 		WebElement firstRowFirstColumn = driver.findElement(By.xpath("//table/tbody/tr[1]/td[1]/span"));
 		String valueOfFirstRowFirstColumn = firstRowFirstColumn.getText();
-		System.out.println("Value of First Row First Column: " + valueOfFirstRowFirstColumn);
+		System.out.println("Before Payment Patient Code: " + valueOfFirstRowFirstColumn);
 
 		WebElement OPmenuIcon = wait
 				.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#mega-menu-nav-btn")));
@@ -132,29 +159,41 @@ public class Billing_New extends BaseTest {
 		SearchStatus.sendKeys(Keys.ENTER);
 		Thread.sleep(2000);
 
-		driver.findElement(By.xpath("//tbody[1]/tr[1]/td[10]/div[1]/div[1]/button[1]")).click();
+		WebElement firstAddButton = wait.until(
+				ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody[1]/tr[1]/td[10]/div[1]/div[1]/button[1]")));
+		firstAddButton.click();
+
+		WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='bill-view-opbilladd']")));
+		addButton.click();
+
+		WebElement firstSelectDropdown = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("(//mat-select[@placeholder='Select'])[1]")));
+		firstSelectDropdown.click();
+
+		WebElement aadityaConsultationFees = wait.until(ExpectedConditions
+				.presenceOfElementLocated(By.xpath("//span[contains(text(),'Dr.Neeraj Fees ')]")));
+		aadityaConsultationFees.click();
+
+		WebElement secondAddButton = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='bill-view-opbilladd']")));
+		secondAddButton.click();
+
+		WebElement secondSelectDropdown = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("(//mat-select[@placeholder='Select'])[1]")));
+		secondSelectDropdown.click();
+
+		WebElement opRegistrationFees = wait.until(ExpectedConditions
+				.presenceOfElementLocated(By.xpath("//span[contains(text(),'OP Registration fees ')]")));
+		opRegistrationFees.click();
+
+		WebElement payBillButton = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Pay Bill')]")));
+		payBillButton.click();
+
+		WebElement yesButton = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Yes')]")));
+		yesButton.click();
 		Thread.sleep(2000);
-
-		driver.findElement(By.xpath("(//button[@title='Add'])[1]")).click();
-
-		driver.findElement(By.xpath("(//mat-select[@placeholder='Select'])[1]")).click();
-		Thread.sleep(2000);
-		driver.findElement(By.xpath("//span[contains(text(),'Dr. Aaditya Consultation Fees	 ')]")).click();
-
-		driver.findElement(By.xpath("(//button[@title='Add'])[1]")).click();
-		Thread.sleep(2000);
-
-		driver.findElement(By.xpath("(//mat-select[@placeholder='Select'])[1]")).click();
-		Thread.sleep(2000);
-		driver.findElement(By.xpath("//span[contains(text(),'OP-Registration fees ')]")).click();
-
-		driver.findElement(By.xpath("//button[contains(text(),'Pay Bill')]")).click();
-
-		Thread.sleep(2000);
-
-		driver.findElement(By.xpath("//button[contains(text(),'Yes')]")).click();
-
-		Thread.sleep(3000);
 
 		Actions actions = new Actions(driver);
 		actions.sendKeys(Keys.TAB).build().perform();
@@ -177,6 +216,19 @@ public class Billing_New extends BaseTest {
 //		SearchStatus1.sendKeys(Keys.ENTER);
 //		Thread.sleep(2000);
 		
+		WebElement menuIcon_OP = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#mega-menu-nav-btn")));
+		JavascriptExecutor executor_OP = (JavascriptExecutor) driver;
+		executor_OP.executeScript("arguments[0].click();", menuIcon_OP);
+		
+		driver.findElement(By.xpath("(//a[text()=' OP'])")).click();
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("//button[@title='Search']")).click();
+		
+		WebElement SearchStatus_OP = driver.findElement(By.xpath("//thead/tr[2]/th[1]/input[1]"));
+		SearchStatus_OP.sendKeys(valueOfFirstRowFirstColumn);
+		SearchStatus_OP.sendKeys(Keys.ENTER);
+		Thread.sleep(2000);
 		
 		
 		WebElement PatientCode = wait
@@ -184,8 +236,12 @@ public class Billing_New extends BaseTest {
         String AfterPaidPatientCode = PatientCode.getText();
         
         WebElement Billnumber = wait
-				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[6]")));
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[5]")));
 		String AfterPaidBillnumber = Billnumber.getText();
+		
+		WebElement BillDate = wait
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[6]")));
+		String AfterPaidBillDate = BillDate.getText();
 		
 		WebElement AfterStatus = wait
 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[8]")));
@@ -193,6 +249,7 @@ public class Billing_New extends BaseTest {
 		
 		System.out.println( "After paying the OP Bill - Patient Code : " + AfterPaidPatientCode);
 		System.out.println( "After paying the OP Bill - Bill Number  : " + AfterPaidBillnumber);
+		System.out.println( "After paying the OP Bill - Bill Number  : " + AfterPaidBillDate);
 		System.out.println( "After paying the OP Bill - Bill Status  : " + AfterPaidStatus);
 	}
 
@@ -208,27 +265,51 @@ public class Billing_New extends BaseTest {
 //	    Thread.sleep(5000);
 
 		// Create Patient Registration
-		driver.findElement(By.xpath("//a[contains(text(),' Patient Registration')]")).click();
+				WebElement patientRegistration = wait.until(
+						ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),' Patient Registration')]")));
+				patientRegistration.click();
 
-		driver.findElement(By.xpath("//input[@title='First Name']")).sendKeys("Harish");
-		driver.findElement(By.xpath("//input[@title='Age']")).sendKeys("23");
-		driver.findElement(By.xpath("//input[@title='Phone Number']")).sendKeys("5425698785");
-		driver.findElement(By.xpath("//span[contains(text(),'Male')]")).click();	
-		
+				// Fill out the registration form for the first patient
+				WebElement firstName = wait
+						.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='First Name']")));
+				firstName.sendKeys("Wyatt");
+				
+				WebElement Lastname = wait
+						.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//input[@type='text'])[2]")));
+				Lastname.sendKeys("Daniel");
 
-		Select State = new Select(driver.findElement(By.xpath("//select[@id='cityChange']")));
-		State.selectByVisibleText(" Tamil Nadu ");
+				WebElement age = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='Age']")));
+				age.sendKeys("39");
 
-		driver.findElement(By.xpath("//span[text()='Select']")).click();
-		driver.findElement(By.xpath("//span[contains(text(),'Madurai')]")).click();
+				WebElement phoneNumber = wait
+						.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='Phone Number']")));
+				phoneNumber.sendKeys("4212324563");
 
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("window.scrollBy(0, 500);");
+				WebElement genderFemale = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Male')]")));
+				genderFemale.click();
 
-		driver.findElement(By.xpath("//button[contains(text(),'Submit')]")).click();	
-		
+				WebElement stateDropdown = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='cityChange']")));
+				Select state = new Select(stateDropdown);
+				state.selectByVisibleText(" Tamil Nadu ");
 
-		Thread.sleep(5000);
+				WebElement cityField = wait.until(ExpectedConditions.elementToBeClickable(
+						By.xpath("//*[@id=\"patientForm\"]/div[1]/div[15]/div/mat-form-field/div/div[1]")));
+				cityField.click();
+
+				WebElement cityChennai = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Trichy')]")));
+				cityChennai.click();
+
+				JavascriptExecutor js = (JavascriptExecutor) driver;
+				js.executeScript("window.scrollBy(0, 500);");
+
+				WebElement submitButton = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Submit')]")));
+				submitButton.click();
+
+				Thread.sleep(5000);	
 
 		// Create Appointment
 		WebElement menuIcon = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#mega-menu-nav-btn")));
@@ -257,7 +338,7 @@ public class Billing_New extends BaseTest {
 		selectDoctorDropdown.click();
 
 		Select selectDoctor = new Select(selectDoctorDropdown);
-		selectDoctor.selectByVisibleText(" Dr.Jeeva S ");
+		selectDoctor.selectByVisibleText(" Dr.Damien S ");
 
 		driver.findElement(By.xpath("//button[contains(text(),' Save & Close ')]")).click();
 		Thread.sleep(3000);
@@ -278,7 +359,7 @@ public class Billing_New extends BaseTest {
 
 		WebElement firstRowFirstColumn = driver.findElement(By.xpath("//table/tbody/tr[1]/td[1]/span"));
 		String valueOfFirstRowFirstColumn = firstRowFirstColumn.getText();
-		System.out.println("Value of First Row First Column: " + valueOfFirstRowFirstColumn);
+		System.out.println("Before Payment Patient Code: " + valueOfFirstRowFirstColumn);
 
 		// Lab Billing Steps
 
@@ -297,34 +378,42 @@ public class Billing_New extends BaseTest {
 		SearchStatus.sendKeys(Keys.ENTER);
 		Thread.sleep(2000);
 
-		driver.findElement(By.xpath("//tbody/tr[1]/td[8]/div[1]/a[1]/span[1]")).click();
+		WebElement firstElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tbody/tr[1]/td[8]/div[1]/a[1]/span[1]")));
+		firstElement.click();
+		
+		WebElement labElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Lab')]")));
+		labElement.click();
+		
+		WebElement addNewElement1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[contains(text(),'Add New')])")));
+		addNewElement1.click();
+		
+		WebElement selectDropdown1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//mat-select[@placeholder='Select'])[1]")));
+		selectDropdown1.click();
+		
+		WebElement altBloodTest = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'01 lab test ')]")));
+		altBloodTest.click();
+		
+		WebElement addNewElement2 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[contains(text(),'Add New')])")));
+		addNewElement2.click();
+		
+		WebElement selectDropdown2 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//mat-select[@placeholder='Select'])[1]")));
+		selectDropdown2.click();
 
-		driver.findElement(By.xpath("//Span[contains(text(),'Lab')]")).click();
+		WebElement bilirubinPack = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Allergy Skin Test ')]")));
+		bilirubinPack.click();
+		
+		WebElement addNewElement3 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[contains(text(),'Add New')])")));
+		addNewElement3.click();
+		
+		WebElement selectDropdown3 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//mat-select[@placeholder='Select'])[1]")));
+		selectDropdown3.click();
+		
+		WebElement liverTestPack = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Antibiotic Sensitivity Test ')]")));
+		liverTestPack.click();
+		
+		WebElement saveAndCloseButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//button[contains(text(),' Save & Close ')])[2]")));
+		saveAndCloseButton.click();
 		Thread.sleep(2000);
-
-		driver.findElement(By.xpath("(//span[contains(text(),'Add New')])[2]")).click();
-
-		driver.findElement(By.xpath("(//mat-select[@placeholder='Select'])[1]")).click();
-		Thread.sleep(2000);
-
-		driver.findElement(By.xpath("//span[contains(text(),' ALT Blood Test ')]")).click();
-
-		driver.findElement(By.xpath("(//span[contains(text(),'Add New')])[2]")).click();
-
-		driver.findElement(By.xpath("(//mat-select[@placeholder='Select'])[1]")).click();
-		Thread.sleep(2000);
-
-		driver.findElement(By.xpath("//span[contains(text(),' BILIRUBIN PACK ')]")).click();
-
-		driver.findElement(By.xpath("(//span[contains(text(),'Add New')])[2]")).click();
-
-		driver.findElement(By.xpath("(//mat-select[@placeholder='Select'])[1]")).click();
-		Thread.sleep(2000);
-
-		driver.findElement(By.xpath("//span[contains(text(),' LIVER TEST PACK ')]")).click();
-
-		driver.findElement(By.xpath("(//button[contains(text(),' Save & Close ')])[2]")).click();
-		Thread.sleep(5000);
 
 		WebElement LabtmenuIcon = wait
 				.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#mega-menu-nav-btn")));
@@ -383,8 +472,12 @@ public class Billing_New extends BaseTest {
         String AfterPaidPatientCode = PatientCode.getText();
         
         WebElement Billnumber = wait
-				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[6]")));
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[5]")));
 		String AfterPaidBillnumber = Billnumber.getText();
+		
+		WebElement BillDate = wait
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[6]")));
+		String AfterPaidBillDate = BillDate.getText();
 		
 		WebElement AfterStatus = wait
 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[8]")));
@@ -392,6 +485,7 @@ public class Billing_New extends BaseTest {
 		
 		System.out.println( "After paying the Lab Bill - Patient Code : " + AfterPaidPatientCode);
 		System.out.println( "After paying the Lab Bill - Bill Number  : " + AfterPaidBillnumber);
+		System.out.println( "After paying the Lab Bill - Bill Date  : " + AfterPaidBillDate);
 		System.out.println( "After paying the Lab Bill - Bill Status  : " + AfterPaidStatus);
 		
 	}
@@ -409,25 +503,51 @@ public class Billing_New extends BaseTest {
 //	    Thread.sleep(5000);
 
 		// Create Patient Registration
-		driver.findElement(By.xpath("//a[contains(text(),' Patient Registration')]")).click();
+				WebElement patientRegistration = wait.until(
+						ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[contains(text(),' Patient Registration')]")));
+				patientRegistration.click();
 
-		driver.findElement(By.xpath("//input[@title='First Name']")).sendKeys("vivek");
-		driver.findElement(By.xpath("//input[@title='Age']")).sendKeys("37");
-		driver.findElement(By.xpath("//input[@title='Phone Number']")).sendKeys("3525456987");
-		driver.findElement(By.xpath("//span[contains(text(),'Male')]")).click();
+				// Fill out the registration form for the first patient
+				WebElement firstName = wait
+						.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='First Name']")));
+				firstName.sendKeys("Emilia");
+				
+				WebElement Lastname = wait
+						.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//input[@type='text'])[2]")));
+				Lastname.sendKeys("Charles");
 
-		Select State = new Select(driver.findElement(By.xpath("//select[@id='cityChange']")));
-		State.selectByVisibleText(" Tamil Nadu ");
+				WebElement age = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='Age']")));
+				age.sendKeys("49");
 
-		driver.findElement(By.xpath("//span[text()='Select']")).click();
-		driver.findElement(By.xpath("//span[contains(text(),'Tenkasi')]")).click();
+				WebElement phoneNumber = wait
+						.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='Phone Number']")));
+				phoneNumber.sendKeys("2132451258");
 
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("window.scrollBy(0, 500);");
+				WebElement genderFemale = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Female')]")));
+				genderFemale.click();
 
-		driver.findElement(By.xpath("//button[contains(text(),'Submit')]")).click();
+				WebElement stateDropdown = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='cityChange']")));
+				Select state = new Select(stateDropdown);
+				state.selectByVisibleText(" Tamil Nadu ");
 
-		Thread.sleep(5000);
+				WebElement cityField = wait.until(ExpectedConditions.elementToBeClickable(
+						By.xpath("//*[@id=\"patientForm\"]/div[1]/div[15]/div/mat-form-field/div/div[1]")));
+				cityField.click();
+
+				WebElement cityChennai = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Madurai')]")));
+				cityChennai.click();
+
+				JavascriptExecutor js = (JavascriptExecutor) driver;
+				js.executeScript("window.scrollBy(0, 500);");
+
+				WebElement submitButton = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Submit')]")));
+				submitButton.click();
+
+				Thread.sleep(5000);
 
 		// Create Appointment
 		WebElement menuIcon = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#mega-menu-nav-btn")));
@@ -463,7 +583,7 @@ public class Billing_New extends BaseTest {
 		selectDoctorDropdown.click();
 
 		Select selectDoctor = new Select(selectDoctorDropdown);
-		selectDoctor.selectByVisibleText(" Dr.Jeeva S ");
+		selectDoctor.selectByVisibleText(" Dr.Damien S ");
 
 		driver.findElement(By.xpath("//button[contains(text(),' Save & Close ')]")).click();
 		Thread.sleep(3000);
@@ -484,7 +604,7 @@ public class Billing_New extends BaseTest {
 
 		WebElement firstRowFirstColumn = driver.findElement(By.xpath("//table/tbody/tr[1]/td[1]/span"));
 		String valueOfFirstRowFirstColumn = firstRowFirstColumn.getText();
-		System.out.println("Value of First Row First Column: " + valueOfFirstRowFirstColumn);
+		System.out.println("Before Payment Patient Code: " + valueOfFirstRowFirstColumn);
 
 		WebElement ScanmenuIcon = wait
 				.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#mega-menu-nav-btn")));
@@ -501,29 +621,34 @@ public class Billing_New extends BaseTest {
 		SearchStatus.sendKeys(Keys.ENTER);
 		Thread.sleep(2000);
 		
-		driver.findElement(By.xpath("//tbody[1]/tr[1]/td[10]/div[1]/div[1]/button[1]")).click();
-		Thread.sleep(2000);
-		
-		driver.findElement(By.xpath("(//button[@title='Add'])[1]")).click();
+		WebElement firstButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tbody[1]/tr[1]/td[10]/div[1]/div[1]/button[1]")));
+		firstButton.click();
 
-		driver.findElement(By.xpath("(//mat-select[@placeholder='Select'])[1]")).click();
-		Thread.sleep(2000);
+		WebElement addButton1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//button[@title='Add'])[1]")));
+		addButton1.click();
 
-		driver.findElement(By.xpath("//span[contains(text(),'MRI Scan ')]")).click();
+		WebElement selectDropdown1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//mat-select[@placeholder='Select'])[1]")));
+		selectDropdown1.click();
 
-		driver.findElement(By.xpath("(//button[@title='Add'])[1]")).click();
+		WebElement mriScanOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'MRI SCAN')]")));
+		mriScanOption.click();
 
-		driver.findElement(By.xpath("//mat-select[@placeholder='Select']")).click();
+		WebElement addButton2 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//button[@title='Add'])[1]")));
+		addButton2.click();
 
-		driver.findElement(By.xpath("//span[contains(text(),'CT Scan ')]")).click();
+		WebElement selectDropdown2 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//mat-select[@placeholder='Select']")));
+		selectDropdown2.click();
 
-		driver.findElement(By.xpath("//button[contains(text(),'Pay Bill')]")).click();
+		WebElement ctScanOption = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'CT Scan ')]")));
+		ctScanOption.click();
 
-		Thread.sleep(2000);
+		WebElement payBillButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Pay Bill')]")));
+		payBillButton.click();
 
-		driver.findElement(By.xpath("//button[contains(text(),'Yes')]")).click();
+		WebElement confirmYesButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Yes')]")));
+		confirmYesButton.click();
 		Thread.sleep(5000);
-
+		
 		Actions actions = new Actions(driver);
 		actions.sendKeys(Keys.TAB).build().perform();
 		actions.sendKeys(Keys.ENTER).build().perform();
@@ -537,10 +662,45 @@ public class Billing_New extends BaseTest {
 		robot.keyPress(KeyEvent.VK_ENTER);
 		robot.keyRelease(KeyEvent.VK_ENTER);
 
+		WebElement menuIcon_OP = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#mega-menu-nav-btn")));
+		JavascriptExecutor executor_OP = (JavascriptExecutor) driver;
+		executor_OP.executeScript("arguments[0].click();", menuIcon_OP);
+		
+		driver.findElement(By.xpath("(//a[text()=' Scan'])[1]")).click();
+		Thread.sleep(2000);
+
+		driver.findElement(By.xpath("//button[@title='Search']")).click();
+		
+		WebElement SearchStatus_OP = driver.findElement(By.xpath("//thead/tr[2]/th[1]/input[1]"));
+		SearchStatus_OP.sendKeys(valueOfFirstRowFirstColumn);
+		SearchStatus_OP.sendKeys(Keys.ENTER);
+		Thread.sleep(2000);
+
+		WebElement PatientCode = wait
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[1]")));
+        String AfterPaidPatientCode = PatientCode.getText();
+        
+        WebElement Billnumber = wait
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[5]")));
+		String AfterPaidBillnumber = Billnumber.getText();
+		
+		WebElement BillDate = wait
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[6]")));
+		String AfterPaidBillDate = BillDate.getText();
+		
+		WebElement AfterStatus = wait
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[8]")));
+		String AfterPaidStatus = AfterStatus.getText();
+		
+		System.out.println( "After paying the Scan Bill - Patient Code : " + AfterPaidPatientCode);
+		System.out.println( "After paying the Scan Bill - Bill Number  : " + AfterPaidBillnumber);
+		System.out.println( "After paying the Scan Bill - Bill Date  : " + AfterPaidBillDate);
+		System.out.println( "After paying the Scan Bill - Bill Status  : " + AfterPaidStatus);
+		
 	}
 
 	
-	
+	@Test(priority = 1)
 	public static void OPBill_PartialPayment() throws InterruptedException, AWTException {
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
@@ -552,25 +712,49 @@ public class Billing_New extends BaseTest {
 //	    Thread.sleep(5000);
 
 		// Create Patient Registration
-		WebElement patientRegistrationLink = wait.until(
-				ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),' Patient Registration')]")));
-		patientRegistrationLink.click();
+				WebElement patientRegistration = wait.until(
+						ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),' Patient Registration')]")));
+				patientRegistration.click();
 
-		driver.findElement(By.xpath("//input[@title='First Name']")).sendKeys("Manoj");
-		driver.findElement(By.xpath("//input[@title='Age']")).sendKeys("48");
-		driver.findElement(By.xpath("//input[@title='Phone Number']")).sendKeys("3265458965	");
-		driver.findElement(By.xpath("//span[contains(text(),'Male')]")).click();
+				// Fill out the registration form for the first patient
+				WebElement firstName = wait
+						.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='First Name']")));
+				firstName.sendKeys("Ryan");
+				
+				WebElement Lastname = wait
+						.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//input[@type='text'])[2]")));
+				Lastname.sendKeys("Wesley");
 
-		Select State = new Select(driver.findElement(By.xpath("//select[@id='cityChange']")));
-		State.selectByVisibleText(" Tamil Nadu ");
+				WebElement age = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='Age']")));
+				age.sendKeys("29");
 
-		driver.findElement(By.xpath("//span[text()='Select']")).click();
-		driver.findElement(By.xpath("//span[contains(text(),'Chennai')]")).click();
-		
-		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("window.scrollBy(0, 500);");
+				WebElement phoneNumber = wait
+						.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='Phone Number']")));
+				phoneNumber.sendKeys("3212542563");
 
-		driver.findElement(By.xpath("//button[contains(text(),'Submit')]")).click();
+				WebElement genderFemale = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Male')]")));
+				genderFemale.click();
+
+				WebElement stateDropdown = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='cityChange']")));
+				Select state = new Select(stateDropdown);
+				state.selectByVisibleText(" Tamil Nadu ");
+
+				WebElement cityField = wait.until(ExpectedConditions.elementToBeClickable(
+						By.xpath("//*[@id=\"patientForm\"]/div[1]/div[15]/div/mat-form-field/div/div[1]")));
+				cityField.click();
+
+				WebElement cityChennai = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Coimbatore')]")));
+				cityChennai.click();
+
+				JavascriptExecutor js = (JavascriptExecutor) driver;
+				js.executeScript("window.scrollBy(0, 500);");
+
+				WebElement submitButton = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Submit')]")));
+				submitButton.click();
 
 		Thread.sleep(5000);
 
@@ -580,14 +764,12 @@ public class Billing_New extends BaseTest {
 		executor.executeScript("arguments[0].click();", menuIcon);
 		Thread.sleep(5000);
 
-		driver.findElement(By.xpath("//a[contains(text(),' Patient Search')]")).click();
-		Thread.sleep(5000);
+		WebElement patientSearchLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),' Patient Search')]")));
+		patientSearchLink.click();
 
 		WebElement appointmentButton = wait.until(
 				ExpectedConditions.elementToBeClickable(By.xpath("(//button[@title='Appointment'])[1]")));
 		appointmentButton.click();
-
-		Thread.sleep(2000);
 
 		WebElement purposeDropdown = wait
 				.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@title='Select Purpose of Visit']")));
@@ -601,10 +783,10 @@ public class Billing_New extends BaseTest {
 		selectDoctorDropdown.click();
 
 		Select selectDoctor = new Select(selectDoctorDropdown);
-		selectDoctor.selectByVisibleText(" Dr.Jeeva S ");
+		selectDoctor.selectByVisibleText(" Dr.Damien S ");
 
-		driver.findElement(By.xpath("//button[contains(text(),' Save & Close ')]")).click();
-		Thread.sleep(3000);
+		WebElement saveAndCloseButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),' Save & Close ')]")));
+		saveAndCloseButton.click();
 
 		// Appointment Check-In
 
@@ -614,46 +796,57 @@ public class Billing_New extends BaseTest {
 		executor1.executeScript("arguments[0].click();", menuIcon1);
 		Thread.sleep(5000);
 
-		driver.findElement(By.xpath("//a[contains(text(),' View Appointments')]")).click();
-		Thread.sleep(2000);
+		WebElement viewAppointmentsLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),' View Appointments')]")));
+		viewAppointmentsLink.click();
 
-		driver.findElement(By.xpath("(//button[@title='Check In'])[1]")).click();
-		Thread.sleep(2000);
+		WebElement checkInButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//button[@title='Check In'])[1]")));
+		checkInButton.click();
 
 		WebElement firstRowFirstColumn = driver.findElement(By.xpath("//table/tbody/tr[1]/td[1]/span"));
 		String valueOfFirstRowFirstColumn = firstRowFirstColumn.getText();
-		System.out.println("Value of First Row First Column: " + valueOfFirstRowFirstColumn);
+		System.out.println("Before Payment Patient Code: " + valueOfFirstRowFirstColumn);
 
 		WebElement OPmenuIcon = wait
 				.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#mega-menu-nav-btn")));
 		JavascriptExecutor OPexecutor = (JavascriptExecutor) driver;
 		OPexecutor.executeScript("arguments[0].click();", OPmenuIcon);
 
-		driver.findElement(By.xpath("//a[text()=' OP']")).click();
-		Thread.sleep(2000);
+		WebElement opLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()=' OP']")));
+		opLink.click();
 		
-		driver.findElement(By.xpath("//button[@title='Search']")).click();
+		WebElement searchButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@title='Search']")));
+		searchButton.click();
 
 		WebElement SearchStatus = driver.findElement(By.xpath("//thead/tr[2]/th[1]/input[1]"));
 		SearchStatus.sendKeys(valueOfFirstRowFirstColumn);
 		SearchStatus.sendKeys(Keys.ENTER);
 		Thread.sleep(2000);
 
-		driver.findElement(By.xpath("//tbody[1]/tr[1]/td[10]/div[1]/div[1]/button[1]")).click();
-		Thread.sleep(2000);
+		WebElement actionButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//tbody[1]/tr[1]/td[10]/div[1]/div[1]/button[1]")));
+		actionButton.click();
+		
+		WebElement addButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//button[@title='Add'])[1]")));
+		addButton.click();
+		
+		WebElement selectDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//mat-select[@placeholder='Select'])[1]")));
+		selectDropdown.click();
+		
+		WebElement aadityaConsultationFees = wait.until(ExpectedConditions
+				.presenceOfElementLocated(By.xpath("//span[contains(text(),'Dr.Neeraj Fees ')]")));
+		aadityaConsultationFees.click();
 
-		driver.findElement(By.xpath("(//button[@title='Add'])[1]")).click();
+		WebElement secondAddButton = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='bill-view-opbilladd']")));
+		secondAddButton.click();
 
-		driver.findElement(By.xpath("(//mat-select[@placeholder='Select'])[1]")).click();
-		Thread.sleep(2000);
-		driver.findElement(By.xpath("//span[contains(text(),'Dr. Aaditya Consultation Fees	 ')]")).click();
+		WebElement secondSelectDropdown = wait
+				.until(ExpectedConditions.elementToBeClickable(By.xpath("(//mat-select[@placeholder='Select'])[1]")));
+		secondSelectDropdown.click();
 
-		driver.findElement(By.xpath("(//button[@title='Add'])[1]")).click();
-		Thread.sleep(2000);
-
-		driver.findElement(By.xpath("(//mat-select[@placeholder='Select'])[1]")).click();
-		Thread.sleep(2000);
-		driver.findElement(By.xpath("//span[contains(text(),'OP-Registration fees ')]")).click();
+		WebElement opRegistrationFees = wait.until(ExpectedConditions
+				.presenceOfElementLocated(By.xpath("//span[contains(text(),'OP Registration fees ')]")));
+		opRegistrationFees.click();
+		
 
 		JavascriptExecutor js1 = (JavascriptExecutor) driver;
 		js1.executeScript("window.scrollBy(0, 500);");
@@ -691,14 +884,13 @@ public class Billing_New extends BaseTest {
 		amountInputBox.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE, String.valueOf(wholeNumberPart));
 
 		// Explicit wait for the element to be clickable
+		
+		WebElement payBillButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Pay Bill')]")));
+		payBillButton.click();
 
-		driver.findElement(By.xpath("//button[contains(text(),'Pay Bill')]")).click();
-
-		Thread.sleep(2000);
-
-		driver.findElement(By.xpath("//button[contains(text(),'Yes')]")).click();
-
-		Thread.sleep(3000);
+		WebElement confirmYesButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Yes')]")));
+		confirmYesButton.click();
+		Thread.sleep(5000);
 
 		Actions actions = new Actions(driver);
 		actions.sendKeys(Keys.TAB).build().perform();
@@ -713,13 +905,39 @@ public class Billing_New extends BaseTest {
 		robot.keyPress(KeyEvent.VK_ENTER);
 		robot.keyRelease(KeyEvent.VK_ENTER);
 
-		System.out.println("OP: Patient registration is completed, the appointment has been scheduled, "
-				+ "the patient has checked in for the appointment, "
-				+ "and a partial payment has been successfully processed for that patient");
+		System.out.println("OP: Partial payment has been successfully processed for the patient");
+		
+		WebElement menuIcon_OP = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#mega-menu-nav-btn")));
+		JavascriptExecutor executor_OP = (JavascriptExecutor) driver;
+		executor_OP.executeScript("arguments[0].click();", menuIcon_OP);
+		
+		WebElement opLink1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[text()=' OP']")));
+		opLink1.click();
+
+		WebElement searchButton1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@title='Search']")));
+		searchButton1.click();
+		
+		WebElement SearchStatus_OP = driver.findElement(By.xpath("//thead/tr[2]/th[1]/input[1]"));
+		SearchStatus_OP.sendKeys(valueOfFirstRowFirstColumn);
+		SearchStatus_OP.sendKeys(Keys.ENTER);
+		Thread.sleep(2000);
+		
+		
+		WebElement PatientCode = wait
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[1]")));
+        String AfterPaidPatientCode = PatientCode.getText();
+		
+		WebElement AfterStatus = wait
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[8]")));
+		String AfterPaidStatus = AfterStatus.getText();
+		
+		System.out.println( "After Partial Payment the OP Bill - Patient Code : " + AfterPaidPatientCode);
+		System.out.println( "After paying the OP Bill - Bill Status  : " + AfterPaidStatus);
+		
 	}
 
 	
-	@Test(priority=1)
+	
 	public static void IPBill_ExtraAmount() throws InterruptedException {
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
@@ -806,8 +1024,6 @@ public class Billing_New extends BaseTest {
 		Thread.sleep(5000);
 
 		// Add Receipt - Payment by Card
-
-		
 
 		WebElement IPBills = driver.findElement(By.xpath("//a[contains(text(),'IP Bills')]"));
 		wait.until(ExpectedConditions.elementToBeClickable(IPBills));
@@ -908,7 +1124,7 @@ public class Billing_New extends BaseTest {
 		double originalAmount2 = Double.parseDouble(amountValue2);
 
 		// Add 1000 rupees to the original amount
-		int amountToAdd = 1000;
+		int amountToAdd = 100;
 		double finalAmount = originalAmount2 + amountToAdd;
 
 		// Convert the final amount to a string
@@ -1046,25 +1262,17 @@ public class Billing_New extends BaseTest {
 		
 		((JavascriptExecutor) driver).executeScript("window.scrollTo(0, 0);");
 		  
-		WebElement IPBills4 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'IP Bills')]")));
-		IPBills4.click();
-		
-		WebElement ipBillsElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//li[contains(text(),'IP Bills')]")));
-		ipBillsElement.click();
-		
-		WebElement searchInputCard4 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@title='Search']")));
-		searchInputCard4.click();
-		
-		WebElement searchInputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//thead/tr[2]/th[1]/input[1]"))); // Adjust the XPath to the input field if necessary
-		searchInputField.sendKeys(columnValue);
-		searchInputField.sendKeys(Keys.ENTER);
-				
-		
-		// Capture Bill Status After Paid
-		WebElement AfterStatus = wait
-				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//tbody[1]/tr[1]/td[10]/span[1]")));
-		String columnValueStatusAfter = AfterStatus.getText();
-		System.out.println(columnValue + " : After paying the IP bill, status : " + columnValueStatusAfter);
+		WebElement PatientCode = wait
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//table[1]/tr[2]/td[3])[1]")));
+        String AfterPaidPatientCode = PatientCode.getText();
+        
+        WebElement Billnumber = wait
+				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//table[1]/tr[4]/td[3])[2]")));
+		String AfterPaidBillnumber = Billnumber.getText();
+	
+		// Capture the bill status after Paid
+		System.out.println( "After paying the IP Bill - Patient Code : " + AfterPaidPatientCode);
+		System.out.println( "After paying the IP Bill - Bill Number  : " + AfterPaidBillnumber);
 
 	}
 	

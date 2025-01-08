@@ -58,9 +58,9 @@ public class Pharmacy extends BaseTest {
 		
 		WebElement Patient_Name = driver.findElement(By.xpath("//input[@title='Patient Name']"));
 		Patient_Name.clear();
-		Patient_Name.sendKeys("Rohan");
+		Patient_Name.sendKeys("William");
 		
-		driver.findElement(By.xpath("//input[@title='Phone Number']")).sendKeys("2545698758");
+		driver.findElement(By.xpath("//input[@title='Phone Number']")).sendKeys("1232124524");
 		
 		driver.findElement(By.xpath("//input[@role='combobox']")).sendKeys("Dinesh");
 		Thread.sleep(3000);
@@ -125,7 +125,7 @@ public class Pharmacy extends BaseTest {
 		
 	}
 	
-	@Test(priority = 1)
+	
 	public static void OP_Pharmacy() throws InterruptedException {
 		
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
@@ -483,7 +483,7 @@ public class Pharmacy extends BaseTest {
 		
 		WebElement searchName = driver.findElement(By.xpath("//input[@name='patientCode']"));
 		searchName.clear();
-		searchName.sendKeys("Neeraj");
+		searchName.sendKeys("Christian");
 		
 		WebElement selectName = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@class='mat-option-text']")));
 		selectName.click();
@@ -498,7 +498,7 @@ public class Pharmacy extends BaseTest {
 		driver.findElement(By.xpath("//input[@role='combobox']")).sendKeys("ACESOFT");
 		Thread.sleep(2000);
 		
-		driver.findElement(By.xpath("//span[contains(text(),'ACESOFT P TAB(ACECLO&PARA)')]")).click();
+		driver.findElement(By.xpath("//span[contains(text(),'ACESOFT ')]")).click();
 		Thread.sleep(2000);
 		
 		WebElement Qty1 = driver.findElement(By.xpath("(//input[@type='number'])[1]"));
@@ -511,7 +511,7 @@ public class Pharmacy extends BaseTest {
 		driver.findElement(By.xpath("//input[@role='combobox']")).sendKeys("CETRITREAT");
 		Thread.sleep(2000);
 		
-		driver.findElement(By.xpath("//span[contains(text(),'CETRITREAT TAB 10')]")).click();
+		driver.findElement(By.xpath("//span[contains(text(),'CETRITREAT ')]")).click();
 		Thread.sleep(2000);
 		
 		WebElement Qty2 = driver.findElement(By.xpath("(//input[@type='number'])[1]"));
@@ -521,10 +521,10 @@ public class Pharmacy extends BaseTest {
 		WebElement addNewButton3 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[contains(text(),'Add New')])[1]")));
 		addNewButton3.click();
 		
-		driver.findElement(By.xpath("//input[@role='combobox']")).sendKeys("myoglad");
+		driver.findElement(By.xpath("//input[@role='combobox']")).sendKeys("Mounjaro");
 		Thread.sleep(2000);
 		
-		driver.findElement(By.xpath("//span[contains(text(),' MYOGLAD TAB 10')]")).click();
+		driver.findElement(By.xpath("//span[contains(text(),'Mounjaro tab ')]")).click();
 		Thread.sleep(2000);
 		
 		WebElement Qty3 = driver.findElement(By.xpath("(//input[@type='number'])[1]"));
@@ -537,7 +537,7 @@ public class Pharmacy extends BaseTest {
 		driver.findElement(By.xpath("//input[@role='combobox']")).sendKeys("rantac");
 		Thread.sleep(2000);
 		
-		driver.findElement(By.xpath("//span[contains(text(),' Rantac 300mg 300 Tablet - (3594) ')]")).click();
+		driver.findElement(By.xpath("//span[contains(text(),'Rantac')]")).click();
 		Thread.sleep(2000);
 		
 		WebElement Qty4 = driver.findElement(By.xpath("(//input[@type='number'])[1]"));
@@ -579,7 +579,7 @@ public class Pharmacy extends BaseTest {
 	}
 	
 	
-	
+	@Test(priority = 1)
 	public static void Pharmacy_CreatenewBill_WithUPI_Payment () throws InterruptedException {
 		
 		
@@ -593,13 +593,16 @@ public class Pharmacy extends BaseTest {
 		WebElement searchName = driver.findElement(By.xpath("//input[@name='patientCode']"));
 		searchName.clear();
 		searchName.sendKeys("Raghav");
-		
+
 		WebElement selectName = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[@class='mat-option-text']")));
 		selectName.click();
-				
-		
+
 		Select DoctorName = new Select(driver.findElement(By.xpath("//select[@title='Select Doctor']")));
 		DoctorName.selectByIndex(1);
+		
+		WebElement patientcodecolumn = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("(//table/tr[2]/td[3])[1]")));
+		String patientcode = patientcodecolumn.getText();
+		System.out.println("Before paying the OP Pharmacy bill - Patient Code : "+patientcode);
 		
 		WebElement addNewButton1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[contains(text(),'Add New')])[1]")));
 		addNewButton1.click();
@@ -607,7 +610,7 @@ public class Pharmacy extends BaseTest {
 		driver.findElement(By.xpath("//input[@role='combobox']")).sendKeys("ACESOFT");
 		Thread.sleep(2000);
 		
-		driver.findElement(By.xpath("//span[contains(text(),'ACESOFT P TAB(ACECLO&PARA)')]")).click();
+		driver.findElement(By.xpath("//span[contains(text(),'ACESOFT ')]")).click();
 		Thread.sleep(2000);
 		
 		WebElement Qty1 = driver.findElement(By.xpath("(//input[@type='number'])[1]"));
@@ -620,7 +623,7 @@ public class Pharmacy extends BaseTest {
 		driver.findElement(By.xpath("//input[@role='combobox']")).sendKeys("CETRITREAT");
 		Thread.sleep(2000);
 		
-		driver.findElement(By.xpath("//span[contains(text(),'CETRITREAT TAB 10')]")).click();
+		driver.findElement(By.xpath("//span[contains(text(),'CETRITREAT ')]")).click();
 		Thread.sleep(2000);
 		
 		WebElement Qty2 = driver.findElement(By.xpath("(//input[@type='number'])[1]"));
@@ -630,10 +633,10 @@ public class Pharmacy extends BaseTest {
 		WebElement addNewButton3 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[contains(text(),'Add New')])[1]")));
 		addNewButton3.click();
 		
-		driver.findElement(By.xpath("//input[@role='combobox']")).sendKeys("myoglad");
+		driver.findElement(By.xpath("//input[@role='combobox']")).sendKeys("Mounjaro");
 		Thread.sleep(2000);
 		
-		driver.findElement(By.xpath("//span[contains(text(),' MYOGLAD TAB 10')]")).click();
+		driver.findElement(By.xpath("//span[contains(text(),'Mounjaro tab ')]")).click();
 		Thread.sleep(2000);
 		
 		WebElement Qty3 = driver.findElement(By.xpath("(//input[@type='number'])[1]"));
@@ -646,7 +649,7 @@ public class Pharmacy extends BaseTest {
 		driver.findElement(By.xpath("//input[@role='combobox']")).sendKeys("rantac");
 		Thread.sleep(2000);
 		
-		driver.findElement(By.xpath("//span[contains(text(),' Rantac 300mg 300 Tablet - (3588) ')]")).click();
+		driver.findElement(By.xpath("//span[contains(text(),'Rantac')]")).click();
 		Thread.sleep(2000);
 		
 		WebElement Qty4 = driver.findElement(By.xpath("(//input[@type='number'])[1]"));
@@ -663,12 +666,12 @@ public class Pharmacy extends BaseTest {
 	// Extract the amount
 				String amountText = driver.findElement(By.xpath("//tbody/tr[7]/td[1]")).getText();
 				String amountValue = amountText.replaceAll("[^0-9.]", ""); // Extract numeric characters
-				System.out.println("Cleaned Amount Text: " + amountValue);
+				//System.out.println("Cleaned Amount Text: " + amountValue);
 				
 				double originalAmount = Double.parseDouble(amountValue);
 				
 				int wholeNumberPart = (int) originalAmount; // Cast to int to remove decimal part
-				System.out.println("Whole Amount: " + wholeNumberPart);
+				//System.out.println("Whole Amount: " + wholeNumberPart);
 				
 		
 		//table[1]/tfoot[1]/tr[1]/td[1]/table[1]/tbody[1]/tr[1]/td[1]
@@ -686,16 +689,11 @@ public class Pharmacy extends BaseTest {
 		WebElement amountInputBox = wait
 				.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@title='Amount']")));
 		amountInputBox.sendKeys(Keys.chord(Keys.CONTROL, "a"), Keys.DELETE, String.valueOf(wholeNumberPart));
-		
-		
-		
-        
+	
         WebElement paybutton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//button[contains(text(),'Pay')])[2]")));
         paybutton.click();
         Thread.sleep(10000);
-        
-     
-        
+
         WebElement PatientCode = wait
 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//td)[1]")));
         String AfterPaidPatientCode = PatientCode.getText();

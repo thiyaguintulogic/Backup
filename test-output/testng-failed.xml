@@ -6,13 +6,14 @@
   </listeners>
   <test thread-count="5" name="Bill Test(failed)">
     <classes>
-      <class name="testcases.Pharmacy">
+      <class name="testcases.Billing_Range">
         <methods>
           <include name="setUp"/>
           <include name="tearDown"/>
-          <include name="OP_Pharmacy"/>
+          <include name="OPBill_OneMonthRange"/>
+          <include name="Logintest"/>
         </methods>
-      </class> <!-- testcases.Pharmacy -->
+      </class> <!-- testcases.Billing_Range -->
     </classes>
   </test> <!-- Bill Test(failed) -->
 </suite> <!-- Failed suite [Billing Test Suite] -->

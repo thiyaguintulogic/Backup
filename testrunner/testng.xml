@@ -8,14 +8,15 @@
   <test thread-count="5" name="Bill Test">
     <classes>
       <class name="base.BaseTest"/>
-       <class name="testcases.SmokeTest"/>   
-      <!-- <class name="testcases.Practice_1"/>  -->
-      <!-- <class name="testcases.Mytestcases"/> -->
-       <!-- <class name="testcases.Billing_New"/>  -->
-       <!-- <class name="testcases.Billing_Range"/>  -->
-        <!-- <class name="testcases.Pharmacy"/> -->
-      <!-- <class name="testcases.Practice"/>   --> 
+       <!-- <class name="testcases.SmokeTest"/>  -->  
+       <!-- <class name="testcases.Practice_1"/> -->   
+       <!-- <class name="testcases.Mytestcases"/> -->
+       <!--<class name="testcases.Billing_New"/>   --> 
+       <class name="testcases.Billing_Range"/>  
+        <!-- <class name="testcases.Pharmacy"/>  -->
+    	<!-- <class name="testcases.Practice"/> -->  
       <!-- <class name="testcases.Login"/> -->      
+      <!-- <class name="testcases.Diagnosis"/> -->  
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->

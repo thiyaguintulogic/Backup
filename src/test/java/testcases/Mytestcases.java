@@ -24,21 +24,22 @@ public class Mytestcases extends BaseTest{
 		@Test(priority = 0)
 		public static void Logintest() throws InterruptedException {
 
-		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
 
 		    WebElement username = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("signin-email")));
-		    username.sendKeys("intulogicMulti");
+		    username.sendKeys("intuadmin");
 
 		    WebElement password = driver.findElement(By.id("signin-password"));
-		    password.sendKeys("Intulogic@123");
+		    password.sendKeys("scott");
 
-		    driver.findElement(By.xpath("//button[@type='submit']")).click();
-		    Thread.sleep(8000);
+		    WebElement submitButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@type='submit']")));
+		    submitButton.click();
 		    
 		    WebElement menuIcon = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#mega-menu-nav-btn")));
 	        JavascriptExecutor executor = (JavascriptExecutor) driver;
 	        executor.executeScript("arguments[0].click();", menuIcon);
 	        Thread.sleep(5000);
+
 		      
 		}
 
@@ -142,84 +143,98 @@ public class Mytestcases extends BaseTest{
 	        
 		}
 		
-		@Test(priority = 1)
-		public static void Create_Appointment() throws InterruptedException {
-			
-			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-
-			driver.findElement(By.xpath("//a[contains(text(),' Patient Search')]")).click();
-
-	        // Wait for the page to load (you might want to use a more specific condition)
-	        Thread.sleep(5000);
-
-	     // Loop for five appointments
-	        for (int i = 1; i <= 5; i++) {
-	            // Click the appointment button on the ith row
-	            WebElement appointmentButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//table/tbody/tr[\" + i + \"]//button[@title='Appointment']")));
-	            appointmentButton.click();
-
-	            // Wait for the success message or existing appointment message (you might want to use a more specific condition)
-	            Thread.sleep(2000);
-	            
-	         // Wait for the purpose dropdown to be clickable
-	            WebElement purposeDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@title='Select Purpose of Visit']")));
-	            purposeDropdown.click();
-
-	            // Select "Out Patient" from the purpose dropdown
-	            Select selectPurposeofVisit = new Select(purposeDropdown);
-	            selectPurposeofVisit.selectByVisibleText("Out Patient");
-
-	            // Wait for the doctor dropdown to be clickable
-	            WebElement selectDoctorDropdown = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@title='Select Doctor']")));
-	            selectDoctorDropdown.click();
-
-	            // Select "Dr.Madan S" from the doctor dropdown
-	            Select selectDoctor = new Select(selectDoctorDropdown);
-	            selectDoctor.selectByVisibleText(" Dr.Madan S ");
-
-	            // Click the "Save & Close" button
-	            driver.findElement(By.xpath("//button[contains(text(),' Save & Close ')]")).click();
-	            Thread.sleep(3000);
-
-	            // Check for the presence of the success message
-	            if (isSuccessMessageDisplayed()) {
-	                // If the success message is displayed, continue to the next iteration
-	                continue;
-	            }
-
-	            // Check for the presence of the existing appointment message
-	            try {
-	                WebElement closeButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[contains(text(),' Close ')]")));
-	                closeButton.click();
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	            }
-
-	            // Continue with the next appointment in the loop
-	        }
-	    }
-
-	    private static boolean isSuccessMessageDisplayed() {
-	        // Check if the success message is displayed
-	        try {
-	            WebElement successMessage = driver.findElement(By.xpath("//div[@aria-label='Appointment Saved Successfully']"));
-	            return successMessage.isDisplayed();
-	        } catch (org.openqa.selenium.NoSuchElementException e) {
-	            return false;
-	        }
-	    }
-
-	    private static boolean isExistingAppointmentMessageDisplayed() {
-	        // Check if the existing appointment message is displayed
-	        try {
-	            WebElement existingAppointmentMessage = driver.findElement(By.xpath("//div[@aria-label='Appointment Already Created For This Patient']"));
-	            return existingAppointmentMessage.isDisplayed();
-	        } catch (org.openqa.selenium.NoSuchElementException e) {
-	            return false;
-	        }
 		
-}
+		public static void Verify_Unallotted() throws InterruptedException {
+			
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(60));
+			
+			// Click on 'Patient Registration'
+			WebElement patientRegistration = wait.until(
+					ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),' Patient Registration')]")));
+			patientRegistration.click();
+
+			// Fill out the registration form for the first patient
+			WebElement firstName = wait
+					.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='First Name']")));
+			firstName.sendKeys("Miriam");
+			
+			WebElement Lastname = wait
+					.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("(//input[@type='text'])[2]")));
+			Lastname.sendKeys("Elijah");
+
+			WebElement age = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='Age']")));
+			age.sendKeys("19");
+
+			WebElement phoneNumber = wait
+					.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@title='Phone Number']")));
+			phoneNumber.sendKeys("3212452569");
+
+			WebElement genderFemale = wait
+					.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Female')]")));
+			genderFemale.click();
+
+			WebElement stateDropdown = wait
+					.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='cityChange']")));
+			Select state = new Select(stateDropdown);
+			state.selectByVisibleText(" Tamil Nadu ");
+
+			WebElement cityField = wait.until(ExpectedConditions.elementToBeClickable(
+					By.xpath("//*[@id=\"patientForm\"]/div[1]/div[15]/div/mat-form-field/div/div[1]")));
+			cityField.click();
+
+			WebElement cityChennai = wait
+					.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[contains(text(),'Trichy')]")));
+			cityChennai.click();
+
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			js.executeScript("window.scrollBy(0, 500);");
+
+			WebElement submitButton = wait
+					.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(text(),'Submit')]")));
+			submitButton.click();
+
+			Thread.sleep(5000);
+			
+			WebElement menuIcon = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#mega-menu-nav-btn")));
+	        JavascriptExecutor executor = (JavascriptExecutor) driver;
+	        executor.executeScript("arguments[0].click();", menuIcon);
+
+			WebElement patientSearch = wait
+					.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),' Patient Search')]")));
+			patientSearch.click();
+
+			// Loop for five appointments
+			for (int i = 1; i <=1; i++) {
+				// Click the appointment button on the ith row
+				WebElement appointmentButton = wait.until(
+						ExpectedConditions.elementToBeClickable(By.xpath("(//button[@title='Admit'])[\" + i + \"]")));
+				appointmentButton.click();
+
+				// Click the doctor dropdown to open options
+				WebElement selectDoctorDropdown = wait
+						.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@title='Select Doctor']")));
+				selectDoctorDropdown.click();
+
+				// Wait for the dropdown options to be interactable
+				Select selectDoctor = new Select(selectDoctorDropdown);
+				selectDoctor.selectByVisibleText(" Dr.Damien S ");
+
+				// Click the "Save & Close" button
+				WebElement saveAndCloseButton = wait.until(
+						ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='caBtn']")));
+				saveAndCloseButton.click();
+				
+				WebElement successMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'Patient Admitted Successfully')]")));
+	            String message = successMessage.getText();
+				System.out.println("Appointment message:" + message);
+				
+				
+	    }
+
+	  
 	    
+	
+		}	    
 }	    	
 	
 
